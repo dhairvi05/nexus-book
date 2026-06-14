@@ -1,0 +1,55 @@
+cmake_minimum_required(VERSION 3.16)
+project(ConcurrentOrderBookEngine VERSION 1.0 LANGUAGES CXX)
+
+# ------------------------------------------------------------------------
+# Language standard
+# ------------------------------------------------------------------------
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# ------------------------------------------------------------------------
+# Build type defaults
+# ------------------------------------------------------------------------
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -fsanitize=thread")
+
+# ------------------------------------------------------------------------
+# Warnings
+# ------------------------------------------------------------------------
+add_compile_options(-Wall -Wextra -Wpedantic)
+
+# ------------------------------------------------------------------------
+# Threading support
+# ------------------------------------------------------------------------
+find_package(Threads REQUIRED)
+
+# ------------------------------------------------------------------------
+# Executable target
+# ------------------------------------------------------------------------
+add_executable(order_book_engine
+    src/main.cpp
+    src/order_book.cpp
+    src/dashboard.cpp
+)
+
+target_include_directories(order_book_engine
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+)
+
+target_link_libraries(order_book_engine
+    PRIVATE
+        Threads::Threads
+)
+
+# ------------------------------------------------------------------------
+# Convenience: print build summary
+# ------------------------------------------------------------------------
+message(STATUS "Configuring ConcurrentOrderBookEngine")
+message(STATUS "  C++ standard : ${CMAKE_CXX_STANDARD}")
+message(STATUS "  Build type   : ${CMAKE_BUILD_TYPE}")
