@@ -1,4 +1,3 @@
-cat << 'EOF'> README.md
 <h1 align="center">NexusBook - High-Concurrency Order Book Matching Engine</h1>
 A production-grade, low-latency financial matching engine built in **Modern C++20** that handles high-throughput transaction streams via concurrent multi-threaded worker pools and renders real-time analytics dashboards.
 
